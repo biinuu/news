@@ -26,3 +26,7 @@ negative = len(df[df['sentiment_label'] == 'Negative'])
 
 st.metric("Positive News", positive)
 st.metric("Negative News", negative)
+
+st.bar_chart(df['sentiment_label'].value_counts())
+
+st.dataframe(df)
