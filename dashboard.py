@@ -42,3 +42,35 @@ LIMIT 100;
 df = pd.read_sql(query, conn)
 
 conn.close()
+
+# ---------------------------------
+# METRICS
+# ---------------------------------
+
+positive_count = len(df[df["sentiment_label"] == "Positive"])
+negative_count = len(df[df["sentiment_label"] == "Negative"])
+neutral_count = len(df[df["sentiment_label"] == "Neutral"])
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("Total News", len(df))
+col2.metric("Positive", positive_count)
+col3.metric("Negative", negative_count)
+col4.metric("Neutral", neutral_count)
+
+# ---------------------------------
+# SHOW DATA
+# ---------------------------------
+
+st.subheader("Latest News")
+
+st.dataframe(
+    df[[
+        "news_date",
+        "source_name",
+        "title",
+        "sentiment_score",
+        "sentiment_label"
+    ]],
+    use_container_width=True
+)
