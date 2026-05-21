@@ -27,3 +27,15 @@ DB_NAME = "postgres"
 DB_USER = "postgres"
 
 DB_PASS = "News12345"
+
+# -----------------------------
+# AWS S3 CLIENT
+# -----------------------------
+
+s3 = boto3.client('s3')
+
+# -----------------------------
+# MAIN LAMBDA FUNCTION
+# -----------------------------
+
+def lambda_handler(event, context):
