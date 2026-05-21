@@ -42,3 +42,17 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 print("Connected successfully!")
+
+cur.execute("""
+DROP TABLE IF EXISTS news_sentiment;
+
+CREATE TABLE news_sentiment (
+    id INT,
+    date DATE,
+    top1 TEXT,
+    sentiment_score FLOAT,
+    sentiment_label INT
+);
+""")
+
+conn.commit()
