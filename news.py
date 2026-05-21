@@ -66,3 +66,12 @@ for _, row in df.iterrows():
 conn.commit()
 
 print("Data inserted successfully!")
+
+cur.execute("SELECT * FROM news_sentiment LIMIT 10;")
+rows = cur.fetchall()
+
+for r in rows:
+    print(r)
+
+cur.close()
+conn.close()
