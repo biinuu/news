@@ -10,3 +10,13 @@ df = pd.read_csv(r"C:\Users\binuk\Downloads\news_data.csv")
 df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y')
 
 df = df[['Date', 'Top1']]
+
+sia = SentimentIntensityAnalyzer()
+
+df['sentiment_score'] = df['Top1'].apply(
+    lambda x: sia.polarity_scores(str(x))['compound']
+)
+
+df['sentiment_label'] = df['sentiment_score'].apply(
+    lambda x: 1 if x > 0 else 0
+)
