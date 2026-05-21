@@ -39,3 +39,17 @@ s3 = boto3.client('s3')
 # -----------------------------
 
 def lambda_handler(event, context):
+
+        url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}"
+
+    response = requests.get(url)
+
+    data = response.json()
+
+    file_name = f"news_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+
+    s3.put_object(
+        Bucket=S3_BUCKET,
+        Key=file_name,
+        Body=json.dumps(data)
+    )
