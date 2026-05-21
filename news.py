@@ -56,3 +56,13 @@ CREATE TABLE news_sentiment (
 """)
 
 conn.commit()
+
+for _, row in df.iterrows():
+    cur.execute(
+        "INSERT INTO news_sentiment (id, date, top1, sentiment_score, sentiment_label) VALUES (%s, %s, %s, %s, %s)",
+        (int(row['id']), row['date'], row['top1'], float(row['sentiment_score']), int(row['sentiment_label']))
+    )
+
+conn.commit()
+
+print("Data inserted successfully!")
