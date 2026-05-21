@@ -53,3 +53,47 @@ def lambda_handler(event, context):
         Key=file_name,
         Body=json.dumps(data)
     )
+
+    conn = psycopg2.connect(
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        port="5432",
+        sslmode="require"
+    )
+
+    cur = conn.cursor()
+
+    sia = SentimentIntensityAnalyzer()
+
+    for article in data['articles']:
+
+        title = article['title']
+        source = article['source']['name']
+        published = article['publishedAt']
+
+        score = sia.polarity_scores(title)['compound']
+
+        label = "Positive" if score > 0 else "Negative"
+
+        cur.execute(
+            '''
+            INSERT INTO news_sentiment
+            (
+                news_date,
+                source_name,
+                title,
+                sentiment_score,
+                sentiment_label
+            )
+            VALUES (%s, %s, %s, %s, %s)
+            ''',
+            (
+                published,
+                source,
+                title,
+                score,
+                label
+            )
+        )
