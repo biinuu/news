@@ -30,3 +30,15 @@ df.rename(columns={
 }, inplace=True)
 
 print(df.head(10))
+
+conn = psycopg2.connect(
+    dbname="news_db",
+    user="postgres",
+    password="root",
+    host="localhost",
+    port="5432"
+)
+
+cur = conn.cursor()
+
+print("Connected successfully!")
