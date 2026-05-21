@@ -74,3 +74,42 @@ st.dataframe(
     ]],
     use_container_width=True
 )
+
+# ---------------------------------
+# SENTIMENT DISTRIBUTION
+# ---------------------------------
+
+st.subheader("Sentiment Distribution")
+
+sentiment_count = (
+    df["sentiment_label"]
+    .value_counts()
+    .reset_index()
+)
+
+sentiment_count.columns = ["sentiment_label", "count"]
+
+fig_bar = px.bar(
+    sentiment_count,
+    x="sentiment_label",
+    y="count",
+    title="Positive vs Negative vs Neutral",
+    text_auto=True
+)
+
+st.plotly_chart(fig_bar, use_container_width=True)
+
+# ---------------------------------
+# PIE CHART
+# ---------------------------------
+
+st.subheader("Sentiment Pie Chart")
+
+fig_pie = px.pie(
+    sentiment_count,
+    names="sentiment_label",
+    values="count",
+    hole=0.4
+)
+
+st.plotly_chart(fig_pie, use_container_width=True)
