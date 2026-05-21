@@ -16,3 +16,15 @@ response = requests.get(url)
 data = response.json()
 
 articles = data['articles']
+
+sia = SentimentIntensityAnalyzer()
+
+conn = psycopg2.connect(
+    database="newsapi",
+    user="postgres",
+    password="root",
+    host="localhost",
+    port="5432"
+)
+
+cur = conn.cursor()
