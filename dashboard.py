@@ -113,3 +113,28 @@ fig_pie = px.pie(
 )
 
 st.plotly_chart(fig_pie, use_container_width=True)
+
+# ---------------------------------
+# TOP NEWS SOURCES
+# ---------------------------------
+
+st.subheader("Top News Sources")
+
+source_count = (
+    df["source_name"]
+    .value_counts()
+    .head(10)
+    .reset_index()
+)
+
+source_count.columns = ["source_name", "count"]
+
+fig_source = px.bar(
+    source_count,
+    x="source_name",
+    y="count",
+    title="Top News Sources",
+    text_auto=True
+)
+
+st.plotly_chart(fig_source, use_container_width=True)
