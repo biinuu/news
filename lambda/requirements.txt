@@ -1,0 +1,7 @@
+streamlit
+pandas
+plotly
+requests
+nltk
+pg8000
+boto3
