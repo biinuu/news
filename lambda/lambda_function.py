@@ -97,3 +97,14 @@ def lambda_handler(event, context):
                 label
             )
         )
+
+            conn.commit()
+
+    cur.close()
+
+    conn.close()
+
+    return {
+        "statusCode": 200,
+        "body": "News inserted successfully!"
+    }
