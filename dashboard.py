@@ -27,6 +27,7 @@ conn = pg8000.connect(
     password="News12345",
     port=5432
 )
+
 # ---------------------------------
 # FETCH DATA
 # ---------------------------------
@@ -41,99 +42,3 @@ LIMIT 100;
 df = pd.read_sql(query, conn)
 
 conn.close()
-
-# ---------------------------------
-# METRICS
-# ---------------------------------
-
-positive_count = len(df[df["sentiment_label"] == "Positive"])
-negative_count = len(df[df["sentiment_label"] == "Negative"])
-neutral_count = len(df[df["sentiment_label"] == "Neutral"])
-
-col1, col2, col3, col4 = st.columns(4)
-
-col1.metric("Total News", len(df))
-col2.metric("Positive", positive_count)
-col3.metric("Negative", negative_count)
-col4.metric("Neutral", neutral_count)
-
-# ---------------------------------
-# SHOW DATA
-# ---------------------------------
-
-st.subheader("Latest News")
-
-st.dataframe(
-    df[[
-        "news_date",
-        "source_name",
-        "title",
-        "sentiment_score",
-        "sentiment_label"
-    ]],
-    use_container_width=True
-)
-
-# ---------------------------------
-# SENTIMENT DISTRIBUTION
-# ---------------------------------
-
-st.subheader("Sentiment Distribution")
-
-sentiment_count = (
-    df["sentiment_label"]
-    .value_counts()
-    .reset_index()
-)
-
-sentiment_count.columns = ["sentiment_label", "count"]
-
-fig_bar = px.bar(
-    sentiment_count,
-    x="sentiment_label",
-    y="count",
-    title="Positive vs Negative vs Neutral",
-    text_auto=True
-)
-
-st.plotly_chart(fig_bar, use_container_width=True)
-
-# ---------------------------------
-# PIE CHART
-# ---------------------------------
-
-st.subheader("Sentiment Pie Chart")
-
-fig_pie = px.pie(
-    sentiment_count,
-    names="sentiment_label",
-    values="count",
-    hole=0.4
-)
-
-st.plotly_chart(fig_pie, use_container_width=True)
-
-# ---------------------------------
-# TOP NEWS SOURCES
-# ---------------------------------
-
-st.subheader("Top News Sources")
-
-source_count = (
-    df["source_name"]
-    .value_counts()
-    .head(10)
-    .reset_index()
-)
-
-source_count.columns = ["source_name", "count"]
-
-fig_source = px.bar(
-    source_count,
-    x="source_name",
-    y="count",
-    title="Top News Sources",
-    text_auto=True
-)
-
-st.plotly_chart(fig_source, use_container_width=True)
