@@ -20,3 +20,13 @@ df['sentiment_score'] = df['Top1'].apply(
 df['sentiment_label'] = df['sentiment_score'].apply(
     lambda x: 1 if x > 0 else 0
 )
+
+df.reset_index(inplace=True)
+
+df.rename(columns={
+    'index': 'id',
+    'Date': 'date',
+    'Top1': 'top1'
+}, inplace=True)
+
+print(df.head(10))
