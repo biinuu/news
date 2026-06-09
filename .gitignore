@@ -5,5 +5,5 @@ venv/
 .streamlit/
 check_data.py
 commit_history.txt
-fetch_news.py
+
 test_connectionrds.py
