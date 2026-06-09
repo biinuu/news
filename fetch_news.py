@@ -26,3 +26,14 @@ for article in articles:
     score = sia.polarity_scores(title)['compound']
 
     label = "Positive" if score > 0 else "Negative"
+
+        cur.execute(
+        """
+        INSERT INTO news_sentiment
+        (news_date, source_name, title, sentiment_score, sentiment_label)
+        VALUES (%s, %s, %s, %s, %s)
+        """,
+        (published, source, title, score, label)
+    )
+
+    conn.commit()
