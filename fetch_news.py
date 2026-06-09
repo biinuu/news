@@ -37,3 +37,8 @@ for article in articles:
     )
 
     conn.commit()
+
+    cur.close()
+conn.close()
+
+print("News inserted successfully!")
