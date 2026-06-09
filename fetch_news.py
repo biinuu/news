@@ -5,18 +5,8 @@ import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 from datetime import datetime
 
-response = requests.get(url)
+nltk.download('vader_lexicon')
 
-data = response.json()
+API_KEY = "your_api_key"
 
-articles = data['articles']
-
-for article in articles:
-
-    title = article['title']
-    source = article['source']['name']
-    published = article['publishedAt']
-
-    score = sia.polarity_scores(title)['compound']
-
-    label = "Positive" if score > 0 else "Negative"
+url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}"
